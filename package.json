@@ -1,0 +1,44 @@
+{
+  "name": "romannumerals",
+  "version": "1.0.0",
+  "description": "Simple application backend server and frontend to convert number to Roman Number",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.js": "eslint --fix",
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aghou/romannumerals.git"
+  },
+  "keywords": [
+    "number2roman",
+    "romannumerals"
+  ],
+  "author": "Zahir Saad Bouzid <zahirnet@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aghou/romannumerals/issues"
+  },
+  "homepage": "https://github.com/aghou/romannumerals#readme",
+  "devDependencies": {
+    "eslint": "^8.35.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
+    "jest": "^29.5.0",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4"
+  }
+}
