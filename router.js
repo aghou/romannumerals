@@ -1,6 +1,7 @@
 const http = require('http');
 const { URL } = require('url');
 const convertController = require('./controllers/convert');
+const defaultController = require('./controllers/default');
 /**
  * Main router ( defaut request handler )
  * @param {http.IncomingMessage} req
@@ -14,7 +15,6 @@ module.exports = (req, res) => {
     case '/convert':
       return convertController(req, res);
     default:
-      res.statusCode = 404;
-      return res.end();
+      return defaultController(req, res);
   }
 };

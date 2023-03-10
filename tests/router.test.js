@@ -8,6 +8,7 @@ describe('Test router', () => {
     const req = new http.IncomingMessage();
     const res = new http.ServerResponse(req);
 
+    req.method = 'GET';
     req.url = 'convert';
     req.protocol = 'http';
     req.headers.host = 'localhost';
@@ -21,6 +22,7 @@ describe('Test router', () => {
     const req = new http.IncomingMessage();
     const res = new http.ServerResponse(req);
 
+    req.method = 'GET';
     req.url = 'nonexist';
     req.protocol = 'http';
     req.headers.host = 'localhost';
