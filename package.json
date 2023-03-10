@@ -2,8 +2,9 @@
   "name": "romannumerals",
   "version": "1.0.0",
   "description": "Simple application backend server and frontend to convert number to Roman Number",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
