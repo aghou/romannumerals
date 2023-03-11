@@ -1,5 +1,6 @@
 const http = require('http');
 const { URL } = require('url');
+const cache = require('../lib/cache');
 const { convert2roman } = require('../lib/converttoroman');
 
 const authorizedMethods = ['GET', 'HEAD'];
@@ -22,12 +23,18 @@ module.exports = (req, res) => {
   const data = parseAndValidateQuery(req.url, baseUrl);
   if (!data) {
     res.statusCode = 400;
-    return res.end('Invalid query');
+    return res.end();
   }
 
+  const sseResponse = cache.sse_response[data.get('sid')];
+  if (sseResponse == null) {
+    res.statusCode = 400;
+    res.statusMessage = 'Invalid Session Id';
+    return res.end();
+  }
   const romanTranscription = convert2roman(data.get('n'));
-  res.setHeader('Content-Type', 'text/plain');
-  res.end(romanTranscription);
+  sseResponse.write(`data: ${romanTranscription}\n\n`);
+  res.end();
 };
 
 /**
@@ -43,11 +50,12 @@ function parseAndValidateQuery(requestUrl, baseUrl) {
   const queryParams = new URL(requestUrl, baseUrl).searchParams;
 
   // Check required queryParams
-  if (queryParams.get('n') != null) {
+  if (queryParams.get('n') != null && queryParams.get('sid')) {
     const numberRangeRegex = /^([0-9]|[1-9][0-9]|100)$/;
+    const uuidRegex = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/;
 
     // Check validity of fields in queryParams
-    if (numberRangeRegex.test(queryParams.get('n'))) {
+    if (numberRangeRegex.test(queryParams.get('n')) && uuidRegex.test(queryParams.get('sid'))) {
       return queryParams;
     }
   }

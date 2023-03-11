@@ -11,10 +11,17 @@ function convertAction(event) {
   const formData = new FormData(event.target);
   const data = {
     n: formData.get('n'),
+    sid,
   };
-  fetch(`convert?${new URLSearchParams(data)}`)
-    .then((response) => response.text())
-    .then((value) => {
-      resultElm.textContent = value;
-    });
+  fetch(`convert?${new URLSearchParams(data)}`);
 }
+
+let sid = '';
+const sseSource = new EventSource('subscribe');
+sseSource.addEventListener('init', (event) => {
+  sid = event.data;
+});
+
+sseSource.onmessage = (event) => {
+  resultElm.textContent = event.data;
+};
